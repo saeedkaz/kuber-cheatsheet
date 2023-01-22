@@ -11,5 +11,7 @@ kubectl get ns --no-headers -o custom-columns=":metadata.name"  | xargs -I{} kub
 
 kubectl get ns --no-headers -o custom-columns=":metadata.name"  | grep "tenant-" |xargs -I{} kubectl exec  postgres-0 -n {} -- du -sh /bitnami/
 
-2>&1 | grep "No" | cut -d " " -f 5 |  xargs -I{} kubectl delete namespace {}
+kubectl get ns --no-headers -o custom-columns=":metadata.name"  | grep "tenant-" |xargs -I{} kubectl exec  postgres-0 -n {} -- hostname -f
+
+kubectl get ns --no-headers -o custom-columns=":metadata.name"  | grep "tenant-" |xargs -I{} kubectl exec  postgres-0 -n {} --  bash -c "hostname -f && du -sh /bitnami/" 2>/dev/null
 
